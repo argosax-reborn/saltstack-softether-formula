@@ -1,0 +1,18 @@
+# This file is managed by salt, do not edit.
+# vim: set ft=upstart ts=2 et:
+
+description   "Start/stop the softether vpnclient"
+author "René Jochum <rene@jochums.at>"
+
+start on started networking
+stop on stopping networking
+
+pre-start script
+    test -f /etc/default/softether-vpnclient && . /etc/default/softether-vpnclient
+    
+    exec /opt/vpnclient/vpnclient start
+    sleep 2
+    ifup $IFUP_INTERFACE
+end script
+
+post-stop exec /usr/bin/vpnclient stop

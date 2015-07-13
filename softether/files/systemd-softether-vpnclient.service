@@ -1,0 +1,12 @@
+[Unit]
+Description=Start/stop the softether vpnclient
+After=network.target auditd.service
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/softether-vpnclient
+ExecStart=/usr/local/bin/start-softether-vpnclient
+ExecStop=/opt/vpnclient/vpnclient stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+{% set datamap = salt['pillar.get']('softether', {
+  'lookup': salt['grains.filter_by']({
+    'Debian': {
+      'client_pkgs': [
+        'softether-vpnclient',
+        'softether-vpncmd'
+      ],
+      'default_file': '/etc/default/softether-vpnclient',
+      'upstart_script': '/etc/init/softether-vpnclient.conf',
+      'systemd_script': '/lib/systemd/system/softether-vpnclient.service',
+      'client_svc_name': 'softether-vpnclient',
+      'client_svc_state': 'running',
+      'client_svc_onboot': False,
+      'client_cfg': '/opt/vpnclient/vpn_client.conf',
+    },
+  }, default='Debian' ),
+
+  'interface': {
+    'enabled': False,
+    'name': 'vpn_gw0',
+    'ipv4address': '10.1.2.3',
+    'ipv4netmask': '255.255.255.0',
+    'ipv6enabled': False,
+    'ipv6address': 'fd88::1',
+    'ipv6netmask': 64,
+  },
+}, merge=True) %}
